@@ -1,6 +1,3 @@
-import sys
-import os
-
-VOCAB_PATH = './data/word2id.pkl'
+VOCAB_PATH = './word2id.pkl'
 TOTAL_PATH = './data/total.txt'
 

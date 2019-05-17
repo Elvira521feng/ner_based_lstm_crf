@@ -6,8 +6,18 @@ from fastNLP.io.dataset_loader import Conll2003Loader
 from utils.constant import TOTAL_PATH, VOCAB_PATH
 
 
+def dataset2list(data):
+    new_data = []
+    for tmp in data:
+        sent_ = tmp['tokens']
+        tag_ = tmp['ner']
+        new_data.append((sent_, tag_))
+
+    return new_data
+
+
 def generate_tag2label():
-    tag2label = {'0': 0}
+    tag2label = {'O': 0}
     tags = ['ORG', 'MISC', 'PER', 'LOC']
     bilist = ['B-', 'I-']
     for i in range(len(tags)):
@@ -111,7 +121,7 @@ def batch_yield(data, batch_size, vocab, tag2label, shuffle=False):
         random.shuffle(data)
 
     seqs, labels = [], []
-    for (sent_, tag_) in data:
+    for sent_, tag_ in data:
         sent_ = sentence2id(sent_, vocab)
         label_ = [tag2label[tag] for tag in tag_]
 
@@ -124,6 +134,7 @@ def batch_yield(data, batch_size, vocab, tag2label, shuffle=False):
 
     if len(seqs) != 0:
         yield seqs, labels
+
 
 def random_embedding(vocab, embedding_dim):
     """

@@ -225,8 +225,11 @@ class BiLSTM_CRF(object):
                 saver.save(sess, self.model_path, global_step=step_num)
 
         self.logger.info('===========validation / test===========')
+        # print("11111")
         label_list_dev, seq_len_list_dev = self.dev_one_epoch(sess, dev)
+        # print("22222")
         self.evaluate(label_list_dev, seq_len_list_dev, dev, epoch)
+        # print("33333")
 
     def get_feed_dict(self, seqs, labels=None, lr=None, dropout=None):
         """
@@ -309,7 +312,7 @@ class BiLSTM_CRF(object):
         for label_, (sent, tag) in zip(label_list, data):
             tag_ = [label2tag[label__] for label__ in label_]
             sent_res = []
-            if  len(label_) != len(sent):
+            if len(label_) != len(sent):
                 print(sent)
                 print(len(label_))
                 print(tag)
@@ -319,6 +322,7 @@ class BiLSTM_CRF(object):
         epoch_num = str(epoch+1) if epoch != None else 'test'
         label_path = os.path.join(self.result_path, 'label_' + epoch_num)
         metric_path = os.path.join(self.result_path, 'result_metric_' + epoch_num)
+
         for _ in conlleval(model_predict, label_path, metric_path):
             self.logger.info(_)
 
