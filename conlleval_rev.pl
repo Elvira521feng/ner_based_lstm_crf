@@ -47,7 +47,7 @@ my $line;                 # line
 my $nbrOfFeatures = -1;   # number of features per line
 my $precision = 0.0;      # precision score
 #my $oTag = "O";           # outside tag, default O
-my $oTag = "0";           # outside tag, default 0
+my $oTag = "O";           # outside tag, default 0
 my $raw = 0;              # raw input: add B to every token
 my $recall = 0.0;         # recall score
 my $tokenCounter = 0;     # token counter (ignores sentence breaks)

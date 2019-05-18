@@ -1,4 +1,5 @@
 import os
+# import commands
 
 
 def conlleval(label_predict, label_path, metric_path):
@@ -19,6 +20,8 @@ def conlleval(label_predict, label_path, metric_path):
                 line.append("{} {} {}\n".format(char, tag, tag_))
             line.append("\n")
         fw.writelines(line)
+    print(eval_perl, label_path, metric_path)
+    # commands.getstatusoutput()
     os.system("perl {} < {} > {}".format(eval_perl, label_path, metric_path))
     with open(metric_path) as fr:
         metrics = [line.strip() for line in fr]

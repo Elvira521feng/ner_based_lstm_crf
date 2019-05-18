@@ -3,7 +3,7 @@ import random
 import numpy as np
 from fastNLP.io.dataset_loader import Conll2003Loader
 
-from utils.constant import TOTAL_PATH, VOCAB_PATH
+from utils.constant import VOCAB_PATH
 
 
 def dataset2list(data):
@@ -150,8 +150,7 @@ def random_embedding(vocab, embedding_dim):
 
 if __name__ == '__main__':
     loader = Conll2003Loader()
-    total_path = TOTAL_PATH
-    total_data = loader.load(total_path)
+    total_data = loader.load("'./data/total.txt'")
 
     # 建词表
     word_list = []
@@ -159,8 +158,7 @@ if __name__ == '__main__':
         word_list.append(sent['tokens'])
     word_dictionary = create_dictionary(word_list)
     print('the count unique word:', len(word_dictionary))
-    # print(word_dictionary)
 
     vocab_path = VOCAB_PATH
     item_to_id, id_to_item = create_mapping(word_dictionary, vocab_path)
-    # print(item_to_id)
+    print(item_to_id)

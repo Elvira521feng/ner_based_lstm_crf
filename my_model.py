@@ -92,9 +92,9 @@ class BiLSTM_CRF(object):
 
             s = tf.shape(output)
             output = tf.reshape(output, [-1, 2*self.hidden_dim])
-            pred = tf.matmul(output, W) + b
+            predict = tf.matmul(output, W) + b
 
-            self.logits = tf.reshape(pred, [-1, s[1], self.num_tags])
+            self.logits = tf.reshape(predict, [-1, s[1], self.num_tags])
 
     def loss_op(self):
         if self.CRF:
@@ -170,10 +170,11 @@ class BiLSTM_CRF(object):
     def test(self, test,filename=''):
         saver = tf.train.Saver()
         with tf.Session(config=self.config) as sess:
-            self.logger.info('=========== {0} testing ==========='.format(filename))
+            self.logger.info('=========== testing ===========')
             saver.restore(sess, self.model_path)
             label_list, seq_len_list = self.dev_one_epoch(sess, test)
             self.save_test_result(label_list, test,filename)
+            return label_list, seq_len_list
 
     def demo_one(self, sess, sent):
         """
@@ -224,12 +225,9 @@ class BiLSTM_CRF(object):
             if step + 1 == num_batches:
                 saver.save(sess, self.model_path, global_step=step_num)
 
-        self.logger.info('===========validation / test===========')
-        # print("11111")
+        self.logger.info('===========validation===========')
         label_list_dev, seq_len_list_dev = self.dev_one_epoch(sess, dev)
-        # print("22222")
         self.evaluate(label_list_dev, seq_len_list_dev, dev, epoch)
-        # print("33333")
 
     def get_feed_dict(self, seqs, labels=None, lr=None, dropout=None):
         """
