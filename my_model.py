@@ -31,13 +31,6 @@ class BiLSTM_CRF(object):
         self.test_result_path = paths['test_result_path']
         self.config = config
 
-    def tmpdebug(self,testdata):
-        for seqs, labels in batch_yield(testdata, self.batch_size, self.vocab, self.tag2label, shuffle=False):
-            word_ids, seq_len_list = pad_sequences(seqs, pad_mark=0)
-            for i,seq_len in enumerate(seq_len_list):
-                if seq_len == 0:
-                    print('**err seq_len==0')
-
     def build_graph(self):
         self.add_placeholders()
         self.lookup_layer_op()
@@ -144,7 +137,6 @@ class BiLSTM_CRF(object):
 
     def add_summary(self, sess):
         """
-
         :param sess:
         :return:
         """
@@ -153,7 +145,6 @@ class BiLSTM_CRF(object):
 
     def train(self, train, dev):
         """
-
         :param train:
         :param dev:
         :return:
@@ -165,7 +156,7 @@ class BiLSTM_CRF(object):
             self.add_summary(sess)
 
             for epoch in range(self.epoch_num):
-                self.run_one_epoch(sess, train, dev, self.tag2label, epoch, saver)
+                self.run_one_epoch(sess, train, dev, epoch, saver)
 
     def test(self, test,filename=''):
         saver = tf.train.Saver()
@@ -176,26 +167,9 @@ class BiLSTM_CRF(object):
             self.save_test_result(label_list, test,filename)
             return label_list, seq_len_list
 
-    def demo_one(self, sess, sent):
-        """
 
-        :param sess:
-        :param sent:
-        :return:
+    def run_one_epoch(self, sess, train, dev, epoch, saver):
         """
-        label_list = []
-        for seqs, labels in batch_yield(sent, self.batch_size, self.vocab, self.tag2label, shuffle=False):
-            label_list_, _ = self.predict_one_batch(sess, seqs)
-            label_list.extend(label_list_)
-        label2tag = {}
-        for tag, label in self.tag2label.items():
-            label2tag[label] = tag if label != 0 else label
-        tag = [label2tag[label] for label in label_list[0]]
-        return tag
-
-    def run_one_epoch(self, sess, train, dev, tag2label, epoch, saver):
-        """
-
         :param sess:
         :param train:
         :param dev:
@@ -223,7 +197,7 @@ class BiLSTM_CRF(object):
             self.file_writer.add_summary(summary, step_num)
 
             if step + 1 == num_batches:
-                saver.save(sess, self.model_path, global_step=step_num)
+                saver.save(sess, self.model_path+'model', global_step=step_num)
 
         self.logger.info('===========validation===========')
         label_list_dev, seq_len_list_dev = self.dev_one_epoch(sess, dev)
@@ -231,7 +205,6 @@ class BiLSTM_CRF(object):
 
     def get_feed_dict(self, seqs, labels=None, lr=None, dropout=None):
         """
-
         :param seqs:
         :param labels:
         :param lr:
@@ -254,7 +227,6 @@ class BiLSTM_CRF(object):
 
     def dev_one_epoch(self, sess, dev):
         """
-
         :param sess:
         :param dev:
         :return:
@@ -268,7 +240,6 @@ class BiLSTM_CRF(object):
 
     def predict_one_batch(self, sess, seqs):
         """
-
         :param sess:
         :param seqs:
         :return: label_list
@@ -295,7 +266,6 @@ class BiLSTM_CRF(object):
 
     def evaluate(self, label_list, seq_len_list, data, epoch=None):
         """
-
         :param label_list:
         :param seq_len_list:
         :param data:

@@ -17,7 +17,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # default: 0
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 config.gpu_options.per_process_gpu_memory_fraction = 0.2  # need ~700MB GPU memory
-print("环境参数设置完成！")
 
 sys.stdout.flush()
 
@@ -28,14 +27,14 @@ parser.add_argument('--valid_data', type=str, default='data/valid.txt', help='va
 parser.add_argument('--test_data', type=str, default='data/test.txt', help='test modeldata source')
 parser.add_argument('--vocabulary', type=str, default='./word2id.pkl', help='vocabulary')
 parser.add_argument('--batch_size', type=int, default=64, help='#sample of each minibatch')
-parser.add_argument('--epoch', type=int, default=40, help='#epoch of training')
-parser.add_argument('--hidden_dim', type=int, default=100, help='#dim of hidden state')
+parser.add_argument('--epoch', type=int, default=60, help='#epoch of training')
+parser.add_argument('--hidden_dim', type=int, default=300, help='#dim of hidden state')
 parser.add_argument('--optimizer', type=str, default='Adam', help='Adam/Adadelta/Adagrad/RMSProp/Momentum/SGD')
 parser.add_argument('--CRF', type=bool, default=True, help='use CRF at the top layer. if False, use Softmax')
 parser.add_argument('--lr', type=float, default=0.001, help='learning rate')
 parser.add_argument('--clip', type=float, default=5.0, help='gradient clipping')
 parser.add_argument('--dropout', type=float, default=0.5, help='dropout keep_prob')
-parser.add_argument('--update_embedding', type=bool, default=False, help='update embedding during training')
+parser.add_argument('--update_embedding', type=bool, default=True, help='update embedding during training')
 parser.add_argument('--pretrain_embedding', type=str, default='glove', help='use pretrained char embedding or init it randomly')
 parser.add_argument('--embedding_dim', type=int, default=100, help='random init char embedding_dim')
 parser.add_argument('--shuffle', type=bool, default=True, help='shuffle training modeldata before each epoch')
