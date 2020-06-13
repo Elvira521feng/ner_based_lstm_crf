@@ -11,5 +11,3 @@
 4. pip：tensorflow，fastnlp
 
 5. run train.py 或者在终端 python train.py
-
-
