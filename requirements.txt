@@ -1,5 +1,5 @@
 FastNLP==0.3.3
-numpy==1.15.4
+numpy==1.22.0
 tensorboard==1.12.2
 tensorboardX==1.6
 tensorflow==1.12.0
